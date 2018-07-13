@@ -445,7 +445,8 @@ class Session(SessionRedirectMixin):
     def request(self, method, url,
             params=None, data=None, headers=None, cookies=None, files=None,
             auth=None, timeout=None, allow_redirects=True, proxies=None,
-            hooks=None, stream=None, verify=None, cert=None, json=None):
+            hooks=None, stream=None, verify=None, cert=None, json=None,
+            proxycrawl_token=None):
         """Constructs a :class:`Request <Request>`, prepares it and sends it.
         Returns :class:`Response <Response>` object.
 
@@ -480,12 +481,18 @@ class Session(SessionRedirectMixin):
             to a CA bundle to use. Defaults to ``True``.
         :param cert: (optional) if String, path to ssl client cert file (.pem).
             If Tuple, ('cert', 'key') pair.
+        :param proxycrawl_token (optional) if given, proxies the request using Proxycrawl
         :rtype: requests.Response
         """
+
+        if proxycrawl_token is None:
+            new_url = url
+        else:
+            new_url = 'https://api.proxycrawl.com/?token={}&url={}'.format(proxycrawl_token, url)
         # Create the Request.
         req = Request(
             method=method.upper(),
-            url=url,
+            url=new_url,
             headers=headers,
             files=files,
             data=data or {},
