@@ -120,7 +120,7 @@ from .exceptions import (
     TooManyRedirects, HTTPError, ConnectionError,
     FileModeWarning, ConnectTimeout, ReadTimeout
 )
-from .proxycrawl import new_proxycrawl_token
+from .proxycrawl import new_proxycrawl_token, ProxycrawlSession
 
 # Set default logging handler to avoid "No handler found" warnings.
 import logging
